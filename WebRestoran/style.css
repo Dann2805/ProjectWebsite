@@ -1,14 +1,11 @@
 /* ========== Reset & Global ========== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 body {
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.6;
-  color: #262626;
-  background-color: #fff;
+  color: #EAEAEA; /* Warna teks diubah menjadi putih pudar agar terbaca */
+  background: 
+    linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), 
+    url('images/interior2.jpg') center/cover no-repeat fixed; 
 }
 
 /* ========== Header & Navbar ========== */
@@ -130,12 +127,19 @@ header nav a.active {
 
 /* ========== PROMO SECTION (HOME PAGE) ========== */
 .promo {
-  padding: 3rem 5%;
+  padding: 4rem 5%;
   text-align: center;
+  color: #fff; /* Pastikan teks utama putih agar terbaca */
+  
+  /* Baris ini menambahkan gambar latar belakang gelap Anda */
+  background: 
+    linear-gradient(rgba(40, 30, 10, 0.75), rgba(40, 30, 10, 0.75)), /* Lapisan gelap kecoklatan */
+    url('images/interior2.jpg') center/cover no-repeat fixed; /* GANTI NAMA GAMBAR ANDA */
 }
 .promo h2 {
   font-size: 2rem;
   margin-bottom: 2.5rem;
+  color: #ffa600; /* Warna judul disesuaikan agar menonjol */
 }
 .promo-cards {
   display: grid;
@@ -154,9 +158,11 @@ header nav a.active {
   align-items: flex-end;
   padding: 1.5rem;
   transition: transform 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 .promo-card:hover {
   transform: translateY(-10px);
+  box-shadow: 0 8px 20px rgba(255, 165, 0, 0.2);
 }
 .promo-card::before {
   content: '';
@@ -179,58 +185,64 @@ header nav a.active {
 .promo-info span {
   font-size: 1.2rem;
   font-weight: 700;
-  background-color: #f90; /* Disesuaikan dengan warna tema Anda */
+  background-color: #f90;
   color: #352a0d;
   padding: 5px 10px;
   border-radius: 5px;
 }
 
-/* ========== MENU LIST SECTION (HOME PAGE) ========== */
-.menu-list {
+/* ========== MENU LIST SECTION (KHUSUS HOME PAGE) ========== */
+/* Menggunakan .promo + .menu-list agar hanya berlaku di homepage */
+.promo + .menu-list {
   padding: 4rem 5%;
   text-align: center;
-  background-color: #f9f9f9; /* Latar belakang agar ada pemisah */
+  background-color: #3f2710;
+  color: #fff;
 }
-.menu-list h2 {
+.promo + .menu-list h2 {
   font-size: 2rem;
   margin-bottom: 2.5rem;
+  color: #ffa600;
 }
-.menu-items {
+.promo + .menu-list .menu-items {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
   text-align: left;
 }
-.menu-item {
-  background-color: #fff;
+.promo + .menu-list .menu-item {
+  background-color: rgba(255, 255, 255, 0.08);
   border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
-.menu-item:hover {
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+.promo + .menu-list .menu-item:hover {
+  box-shadow: 0 8px 25px rgba(255, 165, 0, 0.15);
+  transform: translateY(-5px);
 }
-.menu-item img {
+.promo + .menu-list .menu-item img {
   width: 100%;
   height: 200px;
   object-fit: cover;
 }
-.menu-text {
+.promo + .menu-list .menu-item .menu-text {
   padding: 1.5rem;
 }
-.menu-text h3 {
+.promo + .menu-list .menu-item .menu-text h3 {
   font-size: 1.5rem;
   font-weight: bold;
+  color: #fff;
 }
-.menu-text p {
+.promo + .menu-list .menu-item .menu-text p {
   margin: 0.5rem 0 1rem;
-  color: #555;
+  color: #ccc;
 }
-.menu-text span {
+.promo + .menu-list .menu-item .menu-text span {
   font-weight: 700;
   font-size: 1.2rem;
-  color: #f90; /* Disesuaikan dengan warna tema Anda */
+  color: #f90;
 }
 
 
