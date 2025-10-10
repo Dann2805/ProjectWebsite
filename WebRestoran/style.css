@@ -1,46 +1,54 @@
-/* ========== Reset & Global ========== */
+/* ================== Reset & Global ================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.6;
   color: #EAEAEA;
-  
-  /* Latar belakang diperbaiki agar tidak lag */
-  background-color: #000000; /* Warna dasar jika gambar gagal dimuat */
-  background-image: 
-    linear-gradient(rgba(0, 0, 0, 0.85), rgba(40, 30, 10, 0.85)),
-    url('images/interior2.jpg'); /* GANTI NAMA GAMBAR ANDA */
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
+  background-color: #000;
+  overflow-x: hidden; /* hilangkan scroll horizontal hitam */
 }
-/* ========== Header & Navbar ========== */
+
+/* ================== Header & Navbar ================== */
 header {
-  background-color: #352a0d;  /* warna latar header */
+  background-color: #352a0d;
   color: #fff;
-  padding: 1rem 2rem;
+  padding: 1rem 5%;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 header .logo {
-  color: #ffa600;   /* warna logo */
-  font-size: 2.5rem;
-  font-weight: bold;
+  color: #FFD700; /* warna emas elegan */
+  font-size: 2.8rem;
+  font-family: 'Georgia', 'Times New Roman', serif; /* font klasik & elegan */
+  font-weight: 700;
+  letter-spacing: 1px; /* jarak huruf sedikit */
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.5); /* efek bayangan */
+  text-transform: uppercase; /* opsional, huruf kapital */
 }
+
 header nav ul {
   list-style: none;
   display: flex;
   gap: 1.5rem;
 }
+
 header nav a {
   text-decoration: none;
   color: #fff;
   font-weight: 500;
   transition: color 0.3s;
 }
+
 header nav a:hover,
 header nav a.active {
-  color: #f90;   /* warna link aktif / hover */
+  color: #f90;
 }
 
 /* ========== Hero Section (Home Page) ========== */
@@ -79,78 +87,41 @@ header nav a.active {
   background: #e68a00;
 }
 
-/* ============================================================
-  BAGIAN CSS LAMA YANG DINONAKTIFKAN (TIDAK DIHAPUS)
-============================================================
 
-.specials {
-  padding: 3rem 1rem;
-  text-align: center;
-}
-.specials h2 {
-  font-size: 2rem;
-  margin-bottom: 2rem;
-}
-.cards {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
-}
-.card {
-  width: 250px;
-  background: #f9f9f9;
-  border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  transition: transform 0.3s;
-}
-.card:hover {
-  transform: translateY(-5px);
-}
-.card img {
-  width: 100%;
-  border-radius: 8px;
-  margin-bottom: 0.5rem;
-}
-.card h3 {
-  margin: 0.5rem 0;
-  font-size: 1.2rem;
-  color: #111;
-}
-.card p {
-  color: #f90;   /* harga menu */
-  font-weight: bold;
-}
-
-*/
-
-/* ============================================================
-  BAGIAN CSS BARU UNTUK TAMPILAN MENU DI HALAMAN UTAMA
-============================================================
-*/
-
-/* ========== PROMO SECTION (HOME PAGE) ========== */
+/* ================== Promo Section (index.html) ================== */
 .promo {
+  position: relative;
   padding: 4rem 5%;
-  text-align: center;
   color: #fff;
-  /* Properti 'fixed' dihapus agar tidak lag */
-  background: 
-    linear-gradient(rgba(40, 30, 10, 0.75), rgba(40, 30, 10, 0.75)),
-    url('images/interior2.jpg') center/cover no-repeat;
+  background: url('images/interior2.jpg') center/cover no-repeat fixed;
 }
+
+.promo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.7); /* overlay tipis agar lebih ringan */
+  z-index: 0;
+  pointer-events: none;
+}
+
 .promo h2 {
+  position: relative;
+  z-index: 1;
   font-size: 2rem;
   margin-bottom: 2.5rem;
   color: #ffa600;
-  text-align: center;
+  text-align: center; /* geser ke tengah */
 }
+
 .promo-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
+  position: relative;
+  z-index: 1;
 }
+
 .promo-card {
   background-size: cover;
   background-position: center;
@@ -158,35 +129,37 @@ header nav a.active {
   min-height: 400px;
   position: relative;
   overflow: hidden;
-  color: white;
   display: flex;
   align-items: flex-end;
   padding: 1.5rem;
   transition: transform 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255,255,255,0.1);
 }
-.promo-card:hover {
-  transform: translateY(-10px);
-}
+
 .promo-card::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent 60%);
-  z-index: 1;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent 60%);
+  z-index: 0;
+  pointer-events: none;
 }
+
 .promo-info {
   position: relative;
-  text-align: left;
-  z-index: 2;
+  z-index: 1;
+  text-align: center; /* teks info di tengah */
 }
+
 .promo-info h3 {
   font-size: 1.8rem;
   font-weight: bold;
 }
+
 .promo-info p {
   margin: 0.5rem 0 1rem;
 }
+
 .promo-info span {
   font-size: 1.2rem;
   font-weight: 700;
@@ -196,109 +169,148 @@ header nav a.active {
   border-radius: 5px;
 }
 
-/* ========== MENU LIST SECTION (KHUSUS HOME PAGE) ========== */
+/* ================== Menu Favorit Home (index.html) ================== */
 .menu-favorit-home {
-  padding: 4rem 0;
-  text-align: left;
-  background-color: #EAE0C8;
-  color: #4A3933;
+  position: relative;
+  background: url('images/bgkayu.jpg') center/cover no-repeat fixed;
+  color: #ffae00;
+  padding: 4rem 5%;
+  border-radius: 8px;
+  overflow: hidden;
 }
+
+.menu-favorit-home::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.3); /* overlay gelap tipis */
+  z-index: 0;
+  pointer-events: none;
+}
+
 .menu-favorit-home h2 {
+  position: relative;
+  z-index: 1;
   font-size: 2.5rem;
   text-align: center;
   margin-bottom: 3rem;
-  color: #4A3933;
 }
+
 .menu-favorit-home .menu-items {
-  width: 100%;
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
 }
+
 .menu-favorit-home .menu-item {
   display: flex;
   align-items: center;
-  gap: 2.5rem;
-  padding: 2rem 5%; 
+  gap: 2rem;
+  padding: 1.5rem 0;
   border-bottom: 1px solid #DCD0B3;
 }
+
 .menu-favorit-home .menu-item:last-child {
   border-bottom: none;
 }
+
 .menu-favorit-home .menu-item img {
-  width: 300px;
-  height: 220px;
+  width: 150px;
+  height: 150px;
   object-fit: cover;
   border-radius: 8px;
   flex-shrink: 0;
 }
-.menu-favorit-home .menu-item .menu-text {
-  padding: 0;
-}
-.menu-favorit-home .menu-item .menu-text h3 {
-  font-size: 2rem;
+
+.menu-favorit-home .menu-text h3 {
+  font-size: 1.5rem;
   font-weight: bold;
-  color: #4A3933;
-}
-.menu-favorit-home .menu-item .menu-text p {
-  margin: 0.5rem 0 1rem;
-  color: #6c584c;
-  font-size: 1.1rem;
-}
-.menu-favorit-home .menu-item .menu-text span {
-  font-weight: 700;
-  font-size: 1.3rem;
-  color: #8B413;
+  color: #fff;
 }
 
-/* ========== Page Titles (judul halaman) ========== */
+.menu-favorit-home .menu-text p {
+  margin: 0.5rem 0 1rem;
+  color: #f0e6d2;
+  font-size: 1rem;
+}
+
+.menu-favorit-home .menu-text span {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #f9c74f;
+}
+
+
+/* ================== Page Titles ================== */
 .page-title {
   text-align: center;
   padding: 3rem 1rem;
-  background: #3f271033;
+  background: #ff7b0000;
   font-size: 2rem;
   font-weight: bold;
 }
 
-/* ========== Menu Page ========== */
-/* Kode ini tetap untuk halaman menu.html Anda, tidak diubah */
+/* ================== Page Menu ================== */
+body.menu-page {
+  background: url('images/bgkayu.jpg') center/cover no-repeat fixed;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body.menu-page main {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.5); /* overlay gelap tipis agar teks terlihat */
+}
+
 .menu-list {
   padding: 2rem 1rem;
-  max-width: 600px;
-  margin: auto;
+  max-width: 700px;
+  margin: 2rem auto;
 }
+
 .menu-list h2 {
   color: #f90;
   margin: 2rem 0 1rem;
+  text-align: center; /* judul di tengah */
+  font-size: 2rem;
 }
+
 .menu-list ul {
   list-style: none;
+  padding: 0;
 }
+
 .menu-list li {
   display: flex;
   justify-content: space-between;
-  padding: 0.6rem 0;
-  border-bottom: 1px solid #883701;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid rgba(255, 165, 0, 0.4);
+  font-size: 1.1rem;
+  transition: background 0.3s;
+  border-radius: 5px;
 }
 
-/* ========== Contact / Reservation Page ========== */
+.menu-list li:hover {
+  background: rgba(255, 165, 0, 0.1);
+}
+
+
+/* ================== Contact Page ================== */
 .reservation {
   max-width: 500px;
   margin: 2rem auto;
   padding: 2rem;
-  background: #fff; /* box putih biar form menonjol */
+  background: #fff;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* shadow lembut */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
-.reservation h2 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  font-size: 1.8rem;
-  color: #f9c74f; /* warna judul emas */
-}
-.reservation form label {
-  display: block;
-  margin-bottom: 0.3rem;
-  font-weight: bold;
-  color: #333;
-}
+
+.reservation h2 { text-align: center; margin-bottom: 1.5rem; font-size: 1.8rem; color: #f9c74f; }
+.reservation form label { display: block; margin-bottom: 0.3rem; font-weight: bold; color: #333; }
 .reservation input {
   width: 100%;
   padding: 0.8rem;
@@ -309,7 +321,7 @@ header nav a.active {
 }
 .reservation input:focus {
   border-color: #f90;
-  box-shadow: 0 0 6px rgba(255, 165, 0, 0.6);
+  box-shadow: 0 0 6px rgba(255,165,0,0.6);
   outline: none;
 }
 .reservation button {
@@ -322,39 +334,33 @@ header nav a.active {
   background: linear-gradient(45deg, #f9a825, #f57c00);
   cursor: pointer;
   transition: transform 0.2s, background 0.3s;
+  will-change: transform, background;
 }
 .reservation button:hover {
   background: linear-gradient(45deg, #ffb300, #ef6c00);
   transform: scale(1.05);
 }
 
-/* ========== Footer ========== */
+/* ================== Footer ================== */
 footer {
-  background: #111;   /* warna footer */
+  background: #111;
   color: #fff;
   text-align: center;
   padding: 1rem;
   margin-top: 2rem;
 }
 
-/* ========== About Page (dan halaman lainnya) tetap sama ========== */
-/* ... sisa kode CSS Anda dari sini ke bawah tidak diubah ... */
-/* ========== About Page (Hero Section) ========== */
+/* ================== About Page ================== */
 .about-hero {
-  background: url('images/makanan.jpg') center/cover no-repeat; /* gambar hero halaman about */
-  color: #ffffff;
+  background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+              url('images/makanan.jpg') center/cover no-repeat fixed;
+  color: #fff;
   text-align: center;
-  padding: 6rem 1rem;
-}
-.about-hero h2 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-.about-hero p {
-  font-size: 1.2rem;
+  padding: 6rem 5%;
 }
 
-/* ========== About Page (Content Section) ========== */
+.about-hero h2, .about-hero p { position: relative; z-index: 1; }
+
 .about-content {
   display: flex;
   flex-wrap: wrap;
@@ -364,83 +370,28 @@ footer {
   padding: 0 1rem;
   align-items: center;
 }
-.about-text {
-  flex: 1;
-}
+
+.about-text { flex:1; }
 .about-text h3 {
-  color: #fff;   /* judul dalam konten about */
+  color: #fff;
   margin-bottom: 0.5rem;
   border-bottom: 2px solid #f90;
   display: inline-block;
   padding-bottom: 0.2rem;
 }
-.about-text p {
-  font-size: 1.1rem;   /* ukuran paragraf about (diperbaiki dari 110rem) */
-  line-height: 1.8;    /* jarak antar baris */
-  color: #fff;
-}
-.about-text ul {
-  margin-left: 1.2rem;
-  line-height: 1.8;
-  font-size: 1.2rem;   /* ukuran list */
-  color: #fff;
-}
-.about-img {
-  flex: 1;
-}
-.about-img img {
-  width: 100%;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
+.about-text p, .about-text ul li { font-size: 1.15rem; line-height: 1.8; color:#fff; }
+.about-text ul { margin-left:1.2rem; }
+.about-img { flex:1; }
+.about-img img { width:100%; border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.1); }
 
-/* ========== About Page (Visi Misi Section) ========== */
-.visi-misi {
-  margin-top: 2rem;
-}
-.visi-misi h3 {
-  font-size: 1.6rem;   /* judul visi misi */
-  color: #f9c74f;
-  margin-bottom: 1rem;
-}
-.visi-misi p,
-.visi-misi ul li {
-  font-size: 1.15rem;  /* teks visi misi */
-  line-height: 1.8;
-  color: #fff;
-}
-
-/* ========== About Page (Background Full) ========== */
 body.about-page {
-  background: url('images/makanantradisional.jpg') center/cover no-repeat fixed; /* background full halaman about */
-  color: #fff;
+  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+              url('images/makanantradisional.jpg') center/cover no-repeat fixed;
+  color:#fff;
 }
 body.about-page main {
-  background: rgba(0,0,0,0.6); /* overlay gelap agar teks jelas */
-  padding: 2rem;
-  border-radius: 8px;
-  max-width: 1000px;
-  margin: 2rem auto;
-}
-body.about-page h3 {
-  color: rgb(240, 205, 82);   /* warna judul section di about */
-}
-body.about-page ul {
-  margin-left: 1.5rem;
-}
-
-/* ========== Menu Page (Background Full) ========== */
-body.menu-page {
-  background: url('images/bgkayu.jpg') center/cover no-repeat fixed; /* ganti bg menu */
-  color: #fff;
-}
-body.menu-page main {
-  background: rgba(0,0,0,0.6);   /* overlay gelap agar teks jelas */
-  padding: 2rem;
-  border-radius: 8px;
-  max-width: 1000px;
-  margin: 2rem auto;
-}
-body.menu-page h2 {
-  color: #f9c74f; /* judul section menu */
+  padding:2rem;
+  border-radius:8px;
+  max-width:1000px;
+  margin:2rem auto;
 }
