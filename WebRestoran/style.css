@@ -43,10 +43,18 @@ header nav a.active {
 
 /* ========== Hero Section (Home Page) ========== */
 .hero {
-  background: url('images/interior.jpg') center/cover no-repeat; /* ganti gambar hero di home */
+  /* Gradient ditambahkan SEBELUM url gambar */
+  background-image: 
+    linear-gradient(to right, #352a0d, transparent 60%), 
+    url('images/interior.jpg');
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
   color: #fff;
   text-align: center;
-  padding: 5rem 10rem;
+  padding: 8rem 10rem;
 }
 .hero h1 {
   font-size: 3rem;   /* ukuran judul hero */
@@ -69,7 +77,10 @@ header nav a.active {
   background: #e68a00;
 }
 
-/* ========== Specials Section (Home Page) ========== */
+/* ============================================================
+  BAGIAN CSS LAMA YANG DINONAKTIFKAN (TIDAK DIHAPUS)
+============================================================
+
 .specials {
   padding: 3rem 1rem;
   text-align: center;
@@ -110,6 +121,119 @@ header nav a.active {
   font-weight: bold;
 }
 
+*/
+
+/* ============================================================
+  BAGIAN CSS BARU UNTUK TAMPILAN MENU DI HALAMAN UTAMA
+============================================================
+*/
+
+/* ========== PROMO SECTION (HOME PAGE) ========== */
+.promo {
+  padding: 3rem 5%;
+  text-align: center;
+}
+.promo h2 {
+  font-size: 2rem;
+  margin-bottom: 2.5rem;
+}
+.promo-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+.promo-card {
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  min-height: 400px;
+  position: relative;
+  overflow: hidden;
+  color: white;
+  display: flex;
+  align-items: flex-end;
+  padding: 1.5rem;
+  transition: transform 0.3s ease;
+}
+.promo-card:hover {
+  transform: translateY(-10px);
+}
+.promo-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent 50%);
+}
+.promo-info {
+  position: relative;
+  text-align: left;
+  z-index: 2;
+}
+.promo-info h3 {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+.promo-info p {
+  margin: 0.5rem 0 1rem;
+}
+.promo-info span {
+  font-size: 1.2rem;
+  font-weight: 700;
+  background-color: #f90; /* Disesuaikan dengan warna tema Anda */
+  color: #352a0d;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+/* ========== MENU LIST SECTION (HOME PAGE) ========== */
+.menu-list {
+  padding: 4rem 5%;
+  text-align: center;
+  background-color: #f9f9f9; /* Latar belakang agar ada pemisah */
+}
+.menu-list h2 {
+  font-size: 2rem;
+  margin-bottom: 2.5rem;
+}
+.menu-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  text-align: left;
+}
+.menu-item {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+.menu-item:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+.menu-item img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+.menu-text {
+  padding: 1.5rem;
+}
+.menu-text h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.menu-text p {
+  margin: 0.5rem 0 1rem;
+  color: #555;
+}
+.menu-text span {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #f90; /* Disesuaikan dengan warna tema Anda */
+}
+
+
 /* ========== Page Titles (judul halaman) ========== */
 .page-title {
   text-align: center;
@@ -120,6 +244,7 @@ header nav a.active {
 }
 
 /* ========== Menu Page ========== */
+/* Kode ini tetap untuk halaman menu.html Anda, tidak diubah */
 .menu-list {
   padding: 2rem 1rem;
   max-width: 600px;
@@ -148,22 +273,18 @@ header nav a.active {
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* shadow lembut */
 }
-
 .reservation h2 {
   text-align: center;
   margin-bottom: 1.5rem;
   font-size: 1.8rem;
   color: #f9c74f; /* warna judul emas */
 }
-
 .reservation form label {
   display: block;
   margin-bottom: 0.3rem;
   font-weight: bold;
   color: #333;
 }
-
-/* Input dibuat lebih modern */
 .reservation input {
   width: 100%;
   padding: 0.8rem;
@@ -177,8 +298,6 @@ header nav a.active {
   box-shadow: 0 0 6px rgba(255, 165, 0, 0.6);
   outline: none;
 }
-
-/* Tombol reservasi */
 .reservation button {
   width: 100%;
   padding: 0.8rem;
@@ -195,7 +314,6 @@ header nav a.active {
   transform: scale(1.05);
 }
 
-
 /* ========== Footer ========== */
 footer {
   background: #111;   /* warna footer */
@@ -205,6 +323,8 @@ footer {
   margin-top: 2rem;
 }
 
+/* ========== About Page (dan halaman lainnya) tetap sama ========== */
+/* ... sisa kode CSS Anda dari sini ke bawah tidak diubah ... */
 /* ========== About Page (Hero Section) ========== */
 .about-hero {
   background: url('images/makanan.jpg') center/cover no-repeat; /* gambar hero halaman about */
@@ -241,7 +361,7 @@ footer {
   padding-bottom: 0.2rem;
 }
 .about-text p {
-  font-size: 110rem;   /* ukuran paragraf about */
+  font-size: 1.1rem;   /* ukuran paragraf about (diperbaiki dari 110rem) */
   line-height: 1.8;    /* jarak antar baris */
   color: #fff;
 }
@@ -289,7 +409,7 @@ body.about-page main {
   margin: 2rem auto;
 }
 body.about-page h3 {
-  color: rgb(240, 205, 82);  /* warna judul section di about */
+  color: rgb(240, 205, 82);   /* warna judul section di about */
 }
 body.about-page ul {
   margin-left: 1.5rem;
@@ -300,15 +420,13 @@ body.menu-page {
   background: url('images/bgkayu.jpg') center/cover no-repeat fixed; /* ganti bg menu */
   color: #fff;
 }
-
 body.menu-page main {
-  background: rgba(0,0,0,0.6);  /* overlay gelap agar teks jelas */
+  background: rgba(0,0,0,0.6);   /* overlay gelap agar teks jelas */
   padding: 2rem;
   border-radius: 8px;
   max-width: 1000px;
   margin: 2rem auto;
 }
-
 body.menu-page h2 {
   color: #f9c74f; /* judul section menu */
 }
