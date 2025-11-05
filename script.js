@@ -47,4 +47,40 @@ document.addEventListener('DOMContentLoaded', () => {
   // Jalankan fungsi filterMenu() setiap kali pengguna mengganti pilihan filter
   categoryFilter.addEventListener('change', filterMenu);
 
+  
+});
+
+/* ================================
+   SECTION: DETAIL PAGE HANDLER
+   ================================ */
+document.addEventListener("DOMContentLoaded", function() {
+  const detailSections = document.querySelectorAll(".menu-detail");
+  
+  // Efek fade-in untuk setiap menu saat halaman dimuat
+  detailSections.forEach((section, i) => {
+    setTimeout(() => {
+      section.classList.add("fade-in");
+    }, i * 300); // jeda animasi antar menu
+  });
+});
+
+
+/* ================================
+   TAMBAHAN ANIMASI EFEK HALUS (fade-in)
+   ================================ */
+
+// Saat halaman detail dimuat, tambahkan efek transisi untuk .detail-section
+document.addEventListener("DOMContentLoaded", function() {
+  const sections = document.querySelectorAll(".detail-section");
+
+  sections.forEach((section, index) => {
+    section.style.opacity = 0;
+    section.style.transform = "translateY(40px)";
+    
+    setTimeout(() => {
+      section.style.transition = "all 1s ease";
+      section.style.opacity = 1;
+      section.style.transform = "translateY(0)";
+    }, 300 * index);
+  });
 });

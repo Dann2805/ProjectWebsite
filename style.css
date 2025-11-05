@@ -170,76 +170,7 @@ header nav a.active {
 }
 
 /* ================== Menu Favorit Home (index.html) ================== */
-.menu-favorit-home {
-  position: relative;
-  background: url('images/bgkayu.jpg') center/cover no-repeat fixed;
-  color: #ffae00;
-  padding: 4rem 5%;
-  border-radius: 8px;
-  overflow: hidden;
-}
 
-.menu-favorit-home::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.3); /* overlay gelap tipis */
-  z-index: 0;
-  pointer-events: none;
-}
-
-.menu-favorit-home h2 {
-  position: relative;
-  z-index: 1;
-  font-size: 2.5rem;
-  text-align: center;
-  margin-bottom: 3rem;
-}
-
-.menu-favorit-home .menu-items {
-  position: relative;
-  z-index: 1;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.menu-favorit-home .menu-item {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  padding: 1.5rem 0;
-  border-bottom: 1px solid #DCD0B3;
-}
-
-.menu-favorit-home .menu-item:last-child {
-  border-bottom: none;
-}
-
-.menu-favorit-home .menu-item img {
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 8px;
-  flex-shrink: 0;
-}
-
-.menu-favorit-home .menu-text h3 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #fff;
-}
-
-.menu-favorit-home .menu-text p {
-  margin: 0.5rem 0 1rem;
-  color: #f0e6d2;
-  font-size: 1rem;
-}
-
-.menu-favorit-home .menu-text span {
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: #f9c74f;
-}
 
 
 /* ================== Page Titles ================== */
@@ -316,7 +247,7 @@ body.menu-page main {
 }
 
 /* ===== KARTU MENU INDIVIDUAL (.menu-item) ===== */
-.menu-item {
+.menu-grid .menu-item {
   background-color: rgba(0, 0, 0, 0.7); /* Latar belakang kartu semi-transparan */
   border-radius: 8px;
   overflow: hidden; /* Agar gambar tidak keluar dari radius */
@@ -324,6 +255,7 @@ body.menu-page main {
   display: flex;
   flex-direction: column; /* Menyusun gambar, konten, dan footer secara vertikal */
 }
+
 
 .menu-item img {
   width: 100%;
@@ -685,4 +617,170 @@ body.about-page main {
   color: #fff;
   min-width: 130px; /* Agar rapi */
   display: inline-block;
+}
+
+/* ================== FIXED: Menu Favorit Home (Tampilan Persis Seperti yang Benar) ================== */
+.menu-favorit-home {
+  position: relative;
+  background: url('images/bgkayu.jpg') center/cover no-repeat fixed;
+  color: #ffae00;
+  padding: 4rem 5%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.menu-favorit-home::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.menu-favorit-home h2 {
+  position: relative;
+  z-index: 1;
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.menu-favorit-home .menu-items {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.menu-favorit-home .menu-item {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid #DCD0B3;
+}
+
+.menu-favorit-home .menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-favorit-home .menu-item img {
+  width: 150px !important;
+  height: 150px !important;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+  order: 0 !important; /* gambar di kiri */
+}
+
+.menu-favorit-home .menu-text {
+  order: 1 !important; /* teks di kanan */
+}
+
+.menu-favorit-home .menu-text h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.menu-favorit-home .menu-text p {
+  margin: 0.5rem 0 1rem;
+  color: #f0e6d2;
+  font-size: 1rem;
+}
+
+.menu-favorit-home .menu-text span {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #f9c74f;
+}
+
+/* ================== Detail Page ================== */
+body.detail-page {
+  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+              url('images/bgkayu.jpg') center/cover no-repeat fixed;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== Hero Section ===== */
+.detail-hero {
+  text-align: center;
+  padding: 6rem 5%;
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0, 0, 0, 0)),
+              url('images/restaurant-bg.jpg') center/cover no-repeat;
+}
+
+.detail-hero h1 {
+  font-size: 3rem;
+  color: #f90;
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+}
+
+.detail-hero p {
+  font-size: 1.2rem;
+  color: #f5f5f5;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* ===== Detail Section ===== */
+.detail-section {
+  max-width: 900px;
+  margin: 6rem auto;
+  background: rgba(0, 0, 0, 0.468);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease, opacity 0.6s ease;
+  opacity: 0;
+  transform: translateY(30px);
+  will-change: transform, opacity; /* hint ke browser agar lebih smooth */
+}
+
+.detail-section.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.detail-section h2 {
+  color: #f90;
+  border-bottom: 2px solid #f90;
+  display: inline-block;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+}
+
+.detail-section p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #f5f5f5;
+  text-align: justify;
+}
+
+.detail-section ul {
+  margin-top: 1rem;
+  padding-left: 1.5rem;
+  color: #ddd;
+}
+
+.detail-section ul li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+/* ===== Footer ===== */
+.detail-footer {
+  text-align: center;
+  padding: 2rem 0;
+  color: #fff;
+  border-top: 1px solid rgba(255,255,255,0.2);
+  margin-top: 3rem;
+  font-size: 0.9rem;
 }
