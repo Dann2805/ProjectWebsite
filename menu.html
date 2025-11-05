@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu - Omah Rasa</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="menu-page">
+  <header>
+    <div class="logo">Omah Rasa</div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html" class="active">Menu</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h1 class="page-title">Our Menu</h1>
+
+    <section class="menu-filters">
+      <div class="search-bar">
+        <input type="search" id="menu-search" placeholder="Cari menu...">
+      </div>
+      <div class="filters">
+        <select id="filter-kategori">
+          <option value="all">Semua Kategori</option>
+          <option value="makanan">Makanan</option>
+          <option value="cemilan">Special</option> <option value="minuman">Minuman</option>
+          <option value="dessert">Dessert</option>
+        </select>
+        
+        </div>
+    </section>
+
+    <section class="menu-category">
+      <h2>Makanan</h2>
+      <div class="menu-grid">
+        
+        <div class="menu-item" data-category="makanan">
+          <img src="images/rawonsurabaya.jpg" alt="Rawon">
+          <div class="menu-item-content">
+            <h3>Nasi Goreng Spesial <span class="label bestseller">Best Seller</span></h3>
+            <p class="description">Rawon Khas Jawa Timur.</p>
+            <div class="rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+              <span>(120)</span>
+            </div>
+            <div class="menu-item-footer">
+              <span class="price">Rp 15.000</span>
+              <button class="btn-add-to-cart">Tambah</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-item" data-category="makanan">
+          <img src="images/sateayammadura.jpg" alt="Sate Ayam">
+          <div class="menu-item-content">
+            <h3>Sate Ayam</h3>
+            <p class="description">10 tusuk sate ayam madura dengan bumbu kacang premium dan irisan bawang merah segar.</p>
+            <div class="rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <span>(95)</span>
+            </div>
+            <div class="menu-item-footer">
+              <span class="price">Rp 10.000</span>
+              <button class="btn-add-to-cart">Tambah</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-item" data-category="makanan">
+          <img src="images/nasipecel.jpg" alt="Nasi Pecel">
+          <div class="menu-item-content">
+            <h3>Nasi Pecel</h3>
+            <p class="description">Sayuran segar disiram bumbu pecel khas Madiun, disajikan dengan peyek.</p>
+            <div class="rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+              <i class="far fa-star"></i>
+              <span>(40)</span>
+            </div>
+            <div class="menu-item-footer">
+              <span class="price">Rp 10.000</span>
+              <button class="btn-add-to-cart">Tambah</button>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </section>
+
+    <section class="menu-category">
+      <h2>Special</h2>
+      <div class="menu-grid">
+        
+        <div class="menu-item" data-category="cemilan">
+          <img src="images/nasitumpeng.jpg" alt="Nasi Tumpeng">
+          <div class="menu-item-content">
+            <h3>Bakwan Jagung <span class="label new-menu">Menu Baru</span></h3>
+            <p class="description">Rasakan aneka macam hidangan.</p>
+            <div class="rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="far fa-star"></i>
+              <span>(30)</span>
+            </div>
+            <div class="menu-item-footer">
+              <span class="price">Rp 20.000</span>
+              <button class="btn-add-to-cart">Tambah</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="menu-category">
+      <h2>Minuman Dingin</h2>
+      <div class="menu-grid">
+        
+        <div class="menu-item" data-category="minuman">
+          <img src="images/esteh.jpg" alt="Es Teh Manis">
+          <div class="menu-item-content">
+            <h3>Es Teh Manis</h3>
+            <p class="description">Es teh segar dengan gula asli, ukuran jumbo.</p>
+            <div class="rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+              <span>(150)</span>
+            </div>
+            <div class="menu-item-footer">
+              <span class="price">Rp 5.000</span>
+              <button class="btn-add-to-cart">Tambah</button>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </section>
+    
+    <section class="menu-category">
+      <h2>Minuman Hangat</h2>
+      <div class="menu-grid">
+        
+        <div class="menu-item" data-category="minuman">
+          <img src="images/wedangjahe.jpg" alt="Wedang Jahe">
+          <div class="menu-item-content">
+            <h3>Es Campur</h3>
+            <p class="description">Rasa Jahe yang menghangatkan tubuh.</p>
+            <div class="rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+              <span>(88)</span>
+            </div>
+            <div class="menu-item-footer">
+              <span class="price">Rp 5.000</span>
+              <button class="btn-add-to-cart">Tambah</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+<footer>
+    <p>© 2025 Omah Rasa. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js" defer></script>
+
+</body>
+</html>
