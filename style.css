@@ -183,7 +183,6 @@ header nav a.active {
 }
 
 /* ================== Page Menu ================== */
-/* Style ini (latar belakang & container) Anda sudah bagus, jadi kita pertahankan */
 body.menu-page {
   background: url('images/bgkayu.jpg') center/cover no-repeat fixed;
   color: #fff;
@@ -191,29 +190,26 @@ body.menu-page {
 }
 
 body.menu-page main {
-  max-width: 1000px; /* Lebar container Anda */
+  max-width: 1000px;
   margin: 2rem auto;
   padding: 2rem;
   border-radius: 8px;
-  background: rgba(0, 0, 0, 0.5); /* overlay gelap tipis agar teks terlihat */
+  background: rgba(0, 0, 0, 0.5);
 }
-
-/* Style .menu-list yang lama dihapus, diganti dengan style di bawah ini */
 
 /* ===== FILTER & PENCARIAN ===== */
 .menu-filters {
   display: flex;
-  flex-wrap: wrap; /* Agar responsif di HP */
+  flex-wrap: wrap;
   gap: 1rem;
   justify-content: space-between;
-  /* background-color: rgba(0, 0, 0, 0.4); */ /* Opsional, bisa dihapus jika main sudah gelap */
   padding: 1rem 0;
   border-radius: 8px;
   margin-bottom: 2rem;
 }
 
 .menu-filters .search-bar {
-  flex-grow: 1; /* Membuat search bar mengambil sisa ruang */
+  flex-grow: 1;
   min-width: 250px;
 }
 
@@ -228,44 +224,42 @@ body.menu-page main {
   font-size: 1rem;
 }
 
-/* ===== JUDUL KATEGORI (Makanan, Cemilan, dll) ===== */
+/* ===== JUDUL KATEGORI ===== */
 .menu-category h2 {
   font-size: 2.5rem;
-  color: #ff9900; /* Warna oranye */
+  color: #ff9900;
   border-bottom: 2px solid #ff9900;
   padding-bottom: 10px;
   margin-top: 40px;
-  margin-bottom: 1.5rem; /* Tambah jarak bawah */
+  margin-bottom: 1.5rem;
 }
-
 
 /* ===== GRID KARTU MENU ===== */
 .menu-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 300px agar pas di container 1000px */
-  gap: 2rem; /* Jarak antar kartu */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
 }
 
-/* ===== KARTU MENU INDIVIDUAL (.menu-item) ===== */
-.menu-grid .menu-item {
-  background-color: rgba(0, 0, 0, 0.7); /* Latar belakang kartu semi-transparan */
+/* ===== KARTU MENU ===== */
+.menu-item {
+  background-color: rgba(0, 0, 0, 0.7);
   border-radius: 8px;
-  overflow: hidden; /* Agar gambar tidak keluar dari radius */
+  overflow: hidden;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
   display: flex;
-  flex-direction: column; /* Menyusun gambar, konten, dan footer secara vertikal */
+  flex-direction: column;
 }
-
 
 .menu-item img {
   width: 100%;
-  height: 200px; /* Paksa semua gambar punya tinggi sama */
-  object-fit: cover; /* Mencegah gambar gepeng/distorsi */
+  height: 200px;
+  object-fit: cover;
 }
 
 .menu-item-content {
   padding: 1.25rem;
-  flex-grow: 1; /* Memastikan konten mengisi ruang */
+  flex-grow: 1;
 }
 
 .menu-item-content h3 {
@@ -277,7 +271,7 @@ body.menu-page main {
   align-items: center;
 }
 
-/* ===== LABEL (Best Seller, Menu Baru) ===== */
+/* ===== LABEL ===== */
 .label {
   font-size: 0.8rem;
   padding: 4px 10px;
@@ -292,29 +286,31 @@ body.menu-page main {
 }
 
 .label.new-menu {
-  background-color: #4CAF50; /* Hijau */
+  background-color: #4CAF50;
   color: #fff;
 }
 
+/* ===== DESKRIPSI ===== */
 .description {
   font-size: 0.95rem;
-  color: #eee; /* Sedikit lebih redup dari putih */
+  color: #eee;
   line-height: 1.5;
   margin-bottom: 1rem;
-  min-height: 50px; /* Memberi tinggi minimum agar rata */
+  min-height: 50px;
 }
 
-/* ===== RATING (Bintang) ===== */
+/* ===== RATING ===== */
 .rating {
   margin-bottom: 1rem;
 }
 
-.rating .fas, .rating .fas.fa-star-half-alt {
-  color: #ffd700; /* Warna emas untuk bintang */
+.rating .fas,
+.rating .fas.fa-star-half-alt {
+  color: #ffd700;
 }
 
 .rating .far {
-  color: #ccc; /* Warna abu-abu untuk bintang kosong */
+  color: #ccc;
 }
 
 .rating span {
@@ -323,12 +319,12 @@ body.menu-page main {
   font-size: 0.9rem;
 }
 
-/* ===== FOOTER KARTU (Harga & Tombol) ===== */
+/* ===== FOOTER KARTU ===== */
 .menu-item-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid #444; /* Garis pemisah */
+  border-top: 1px solid #444;
   padding: 1.25rem;
   padding-top: 1rem;
 }
@@ -340,8 +336,7 @@ body.menu-page main {
 }
 
 .btn-add-to-cart {
-  display: none; /* <-- Tombol 'Tambah' disembunyikan */
-
+  display: none; /* tombol disembunyikan */
   background-color: #ff9900;
   color: #000;
   border: none;
@@ -356,6 +351,27 @@ body.menu-page main {
 .btn-add-to-cart:hover {
   background-color: #ffb84d;
 }
+
+/* ===== SPESIFIK UNTUK MENU BARU (tidak perlu ubah desain) ===== */
+/* Menu baru otomatis pakai class .menu-item dan .menu-item-content yang sama,
+   jadi tampilan akan persis sama tanpa perlu style tambahan. 
+   Namun, jika ingin memberi tanda khusus, gunakan label.new-menu seperti di HTML. */
+
+.menu-item img[src*="rawon"],
+.menu-item img[src*="soto"],
+.menu-item img[src*="pisang"],
+.menu-item img[src*="kentang"],
+.menu-item img[src*="esjeruk"],
+.menu-item img[src*="jusalpukat"],
+.menu-item img[src*="kopitubruk"],
+.menu-item img[src*="tehhangat"],
+.menu-item img[src*="wedanguwuh"],
+.menu-item img[src*="kuelapis"] {
+  background-color: #222; /* placeholder area gelap jika gambar belum ada */
+  object-fit: contain;
+  border-bottom: 1px solid #444;
+}
+
 
 
 /* ================== Contact Page ================== */
@@ -730,18 +746,65 @@ body.detail-page {
   margin: 0 auto;
 }
 
+/* ================== Detail Page ================== */
+body.detail-page {
+  background: url('images/bgkayu.jpg') center/cover no-repeat fixed;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Layer overlay gelap (ganti fungsi linear-gradient) */
+body.detail-page::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: -1; /* biar di belakang konten */
+  pointer-events: none;
+}
+
+/* ===== Hero Section ===== */
+.detail-hero {
+  text-align: center;
+  padding: 6rem 5%;
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0, 0, 0, 0)),
+              url('images/restaurant-bg.jpg') center/cover no-repeat;
+  background-attachment: fixed;
+}
+
+.detail-hero h1 {
+  font-size: 3rem;
+  color: #f90;
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+}
+
+.detail-hero p {
+  font-size: 1.2rem;
+  color: #f5f5f5;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
 /* ===== Detail Section ===== */
 .detail-section {
   max-width: 900px;
   margin: 6rem auto;
-  background: rgba(0, 0, 0, 0.468);
+  background: rgba(0, 0, 0, 0.45);
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   transition: transform 0.3s ease, opacity 0.6s ease;
   opacity: 0;
   transform: translateY(30px);
-  will-change: transform, opacity; /* hint ke browser agar lebih smooth */
+  will-change: transform, opacity;
 }
 
 .detail-section.fade-in {
@@ -783,4 +846,23 @@ body.detail-page {
   border-top: 1px solid rgba(255,255,255,0.2);
   margin-top: 3rem;
   font-size: 0.9rem;
+}
+
+
+/* ===== HILANGKAN GARIS BAWAH DI MENU LINK ===== */
+.menu-item {
+  text-decoration: none;
+  color: inherit;
+}
+
+.menu-item:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+.menu-item h3, 
+.menu-item p, 
+.menu-item span {
+  text-decoration: none;
+  color: inherit;
 }
