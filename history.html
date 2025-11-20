@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>History - Omah Rasa</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .history-container { max-width: 800px; margin: 2rem auto; padding: 2rem; background: rgba(0, 0, 0, 0.6); border-radius: 8px; color: white; }
+    .reservation-card { background: rgba(255, 255, 255, 0.1); padding: 1.5rem; margin-bottom: 1.5rem; border-radius: 8px; border-left: 5px solid #ff9900; }
+    .reservation-card h3 { margin-top: 0; color: #ff9900; }
+    .button-group { display: flex; gap: 10px; margin-top: 15px; }
+    .btn-history { color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: background-color 0.2s; }
+    .btn-cancel { background-color: #f0ad4e; }
+    .btn-cancel:hover { background-color: #ec971f; }
+    .btn-delete { background-color: #d9534f; }
+    .btn-delete:hover { background-color: #c9302c; }
+    .btn-history:disabled { background-color: #555; cursor: not-allowed; opacity: 0.7; }
+    .status-cancelled { color: #ff4444; font-weight: bold; }
+    .status-pending { color: #ffbb33; font-weight: bold; }
+  </style>
+</head>
+<body class="menu-page">
+
+  <header>
+    <div class="logo">Omah Rasa</div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="history.html" class="active">History</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h1 class="page-title">History Reservasi</h1>
+    <div class="history-container" id="historyList">
+      <p style="text-align:center;">Menghubungkan ke server...</p>
+    </div>
+  </main>
+
+  <footer><p>&copy; 2025 Omah Rasa. All rights reserved.</p></footer>
+
+  <script type="module">
+    import { db, auth, onAuthStateChanged, signInAnonymously, collection, query, where, onSnapshot, doc, updateDoc, deleteDoc } from './firebaseconfig.js';
+
+    const historyList = document.getElementById("historyList");
+    let unsubscribe = null;
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        loadHistory(user.uid);
+      } else {
+        signInAnonymously(auth).catch((error) => {
+          console.error("Login Error:", error);
+          historyList.innerHTML = "<p style='text-align:center;'>Gagal terhubung.</p>";
+        });
+      }
+    });
+
+    function loadHistory(userId) {
+      const q = query(collection(db, "reservasi"), where("userId", "==", userId));
+      if (unsubscribe) unsubscribe();
+
+      unsubscribe = onSnapshot(q, (querySnapshot) => {
+        if (querySnapshot.empty) {
+          historyList.innerHTML = "<p style='text-align:center;'>Belum ada reservasi.</p>";
+          return;
+        }
+
+        historyList.innerHTML = ""; 
+        let reservations = [];
+        querySnapshot.forEach((doc) => {
+          reservations.push({ id: doc.id, ...doc.data() });
+        });
+
+        // Urutkan (Terbaru di atas)
+        reservations.sort((a, b) => (b.createdAt?.toDate() || 0) - (a.createdAt?.toDate() || 0));
+
+        reservations.forEach(item => {
+          const card = document.createElement("div");
+          card.className = "reservation-card";
+          
+          const isCancelled = item.status === "Cancelled";
+          let statusDisplay = isCancelled ? `<span class="status-cancelled">Dibatalkan</span>` : `<span class="status-pending">${item.status}</span>`;
+          let cancelDisabled = isCancelled ? "disabled" : "";
+          let cancelText = isCancelled ? "Sudah Dibatalkan" : "Batalkan Reservasi";
+
+          card.innerHTML = `
+            <h3>${item.name}</h3>
+            <p><strong>Tanggal:</strong> ${item.tanggal} | Pukul ${item.waktu}</p>
+            <p><strong>Jumlah:</strong> ${item.people} Orang</p>
+            <p><strong>Status:</strong> ${statusDisplay}</p>
+            <div class="button-group">
+              <button class="btn-history btn-cancel" data-id="${item.id}" ${cancelDisabled}>${cancelText}</button>
+              <button class="btn-history btn-delete" data-id="${item.id}">Hapus History</button>
+            </div>
+          `;
+          historyList.appendChild(card);
+        });
+      });
+    }
+
+    historyList.addEventListener('click', async (e) => {
+      const target = e.target;
+      const reservationId = target.dataset.id;
+      if (!reservationId) return;
+
+      if (target.classList.contains('btn-cancel')) {
+        if(!confirm("Batalkan reservasi ini?")) return;
+        target.disabled = true;
+        await updateDoc(doc(db, "reservasi", reservationId), { status: "Cancelled" });
+      }
+
+      if (target.classList.contains('btn-delete')) {
+        if(!confirm("Hapus history ini permanen?")) return;
+        target.disabled = true;
+        await deleteDoc(doc(db, "reservasi", reservationId));
+      }
+    });
+  </script>
+</body>
+</html>

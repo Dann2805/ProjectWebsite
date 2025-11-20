@@ -1,11 +1,22 @@
 <!DOCTYPE html>
-<html lang="id"> <head>
+<html lang="id">
+<head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Contact - Omah Rasa</title>
   <link rel="stylesheet" href="style.css"/>
+  <style>
+    .message-box { display: none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); padding: 15px 25px; border-radius: 8px; font-size: 1rem; font-weight: bold; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+    .message-box.success { background-color: #4CAF50; color: white; }
+    .message-box.error { background-color: #f44336; color: white; }
+    .form-row { display: flex; gap: 1rem; } .form-group { flex: 1; }
+    .reservation select, .reservation textarea { width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid #ccc; border-radius: 6px; }
+    .disclaimer { font-size: 0.85rem; color: #777; text-align: center; margin-top: 1rem; }
+  </style>
 </head>
-<body class="contact-page"> <header>
+<body class="contact-page"> 
+
+  <header>
     <div class="logo">Omah Rasa</div>
     <nav>
       <ul>
@@ -13,17 +24,16 @@
         <li><a href="menu.html">Menu</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="contact.html" class="active">Contact</a></li>
+        <li><a href="history.html">History</a></li> 
       </ul>
     </nav>
   </header>
 
   <main>
     <h1 class="page-title">Contact & Reservation</h1>
-
     <section class="reservation">
       <h2>Book a Table</h2>
-      <form action="#" method="post">
-        
+      <form id="reservationForm">
         <label for="name">Name</label>
         <input type="text" id="name" name="name" required>
 
@@ -34,23 +44,12 @@
         <input type="tel" id="telepon" name="telepon" placeholder="Nomor WhatsApp aktif" required>
 
         <div class="form-row">
-          <div class="form-group">
-            <label for="tanggal">Date</label>
-            <input type="date" id="tanggal" name="tanggal" required>
-          </div>
-          <div class="form-group">
-            <label for="waktu">Time</label>
+          <div class="form-group"><label for="tanggal">Date</label><input type="date" id="tanggal" name="tanggal" required></div>
+          <div class="form-group"><label for="waktu">Time</label>
             <select id="waktu" name="waktu" required>
-              <option value="">Pilih Waktu</option>
-              <option value="17:00">17:00</option>
-              <option value="17:30">17:30</option>
-              <option value="18:00">18:00</option>
-              <option value="18:30">18:30</option>
-              <option value="19:00">19:00</option>
-              <option value="19:30">19:30</option>
-              <option value="20:00">20:00</option>
-              <option value="20:30">20:30</option>
-              <option value="21:00">21:00</option>
+              <option value="">Pilih Waktu</option><option value="17:00">17:00</option><option value="17:30">17:30</option>
+              <option value="18:00">18:00</option><option value="18:30">18:30</option><option value="19:00">19:00</option>
+              <option value="19:30">19:30</option><option value="20:00">20:00</option>
             </select>
           </div>
         </div>
@@ -60,19 +59,73 @@
 
         <label for="catatan">Special Requests (Opsional)</label>
         <textarea id="catatan" name="catatan" rows="4" placeholder="Contoh: Perlu kursi bayi, alergi kacang, dll."></textarea>
-
-        <button type="submit" class="btn">Submit Reservation</button>
-
-        <p class="disclaimer">
-          Perhatian: Reservasi Anda baru akan **dikonfirmasi** setelah Anda menerima
-          email atau balasan WhatsApp dari tim kami.
-        </p>
+        
+        <button type="submit" class="btn" id="submitButton" disabled>Loading...</button>
+        <p class="disclaimer">Perhatian: Reservasi Anda akan disimpan secara online.</p>
       </form>
     </section>
   </main>
 
-  <footer>
-    <p>&copy; 2025 Omah Rasa. All rights reserved.</p>
-  </footer>
+  <div id="messageBox" class="message-box"></div>
+  <footer><p>&copy; 2025 Omah Rasa. All rights reserved.</p></footer>
+
+  <script type="module">
+    import { db, auth, signInAnonymously, onAuthStateChanged, collection, addDoc, serverTimestamp } from './firebaseconfig.js';
+
+    const reservationForm = document.getElementById("reservationForm");
+    const submitButton = document.getElementById("submitButton");
+    const messageBox = document.getElementById("messageBox");
+    let currentUserId = null;
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        currentUserId = user.uid;
+        submitButton.disabled = false;
+        submitButton.textContent = "Submit Reservation";
+      } else {
+        signInAnonymously(auth).catch((error) => console.error("Login Error:", error));
+      }
+    });
+
+    reservationForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!currentUserId) return showMessage("User belum terautentikasi.", "error");
+
+      submitButton.disabled = true;
+      submitButton.textContent = "Menyimpan...";
+
+      try {
+        const reservationData = {
+          userId: currentUserId,
+          name: document.getElementById("name").value,
+          email: document.getElementById("email").value,
+          telepon: document.getElementById("telepon").value,
+          tanggal: document.getElementById("tanggal").value,
+          waktu: document.getElementById("waktu").value,
+          people: parseInt(document.getElementById("people").value),
+          catatan: document.getElementById("catatan").value,
+          status: "Pending",
+          createdAt: serverTimestamp()
+        };
+
+        await addDoc(collection(db, "reservasi"), reservationData);
+        showMessage("Reservasi berhasil disimpan!", "success");
+        reservationForm.reset();
+      } catch (error) {
+        console.error("Error:", error);
+        showMessage("Gagal menyimpan reservasi.", "error");
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = "Submit Reservation";
+      }
+    });
+
+    function showMessage(message, type) {
+      messageBox.textContent = message;
+      messageBox.className = `message-box ${type}`;
+      messageBox.style.display = 'block';
+      setTimeout(() => { messageBox.style.display = 'none'; }, 5000);
+    }
+  </script>
 </body>
 </html>
