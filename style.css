@@ -10,11 +10,20 @@ body {
   line-height: 1.6;
   color: #EAEAEA;
   background-color: #000;
-  overflow-x: hidden; /* hilangkan scroll horizontal hitam */
+  overflow-x: hidden;
+
+  /* Tambahan agar konten tidak ketutup navbar */
+  padding-top: 100px;
 }
 
 /* ================== Header & Navbar ================== */
 header {
+  position: fixed;      /* membuat navbar menempel di atas */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;         /* supaya selalu di depan */
+
   background-color: #352a0d;
   color: #fff;
   padding: 1rem 5%;
@@ -24,13 +33,13 @@ header {
 }
 
 header .logo {
-  color: #FFD700; /* warna emas elegan */
+  color: #FFD700;
   font-size: 2.8rem;
-  font-family: 'Georgia', 'Times New Roman', serif; /* font klasik & elegan */
+  font-family: 'Georgia', 'Times New Roman', serif;
   font-weight: 700;
-  letter-spacing: 1px; /* jarak huruf sedikit */
-  text-shadow: 1px 1px 4px rgba(0,0,0,0.5); /* efek bayangan */
-  text-transform: uppercase; /* opsional, huruf kapital */
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+  text-transform: uppercase;
 }
 
 header nav ul {
@@ -51,11 +60,14 @@ header nav a.active {
   color: #f90;
 }
 
+
+
 /* ========== Hero Section (Home Page) ========== */
 .hero {
-  /* Gradient ditambahkan SEBELUM url gambar */
+  /* Gradient diubah: sekarang fade atas & bawah saja */
   background-image: 
-    linear-gradient(to right, #352a0d, transparent 60%), 
+    linear-gradient(to bottom, rgba(0,0,0,0.6), transparent 35%),
+    linear-gradient(to top, rgba(0, 0, 0, 0.861), transparent 35%),
     url('images/interior.jpg');
 
   background-size: cover;
@@ -64,18 +76,23 @@ header nav a.active {
 
   color: #fff;
   text-align: center;
-  padding: 2rem 8rem;
+
+  /* Gambar diperpanjang ke bawah */
+  padding: 6rem 4rem;    /* tadinya: 2rem 8rem → sekarang hero lebih tinggi */
 }
+
 .hero h1 {
-  font-size: 3rem;   /* ukuran judul hero */
+  font-size: 3.2rem;   /* sedikit lebih besar agar proporsional */
   margin-bottom: 1rem;
 }
+
 .hero p {
-  font-size: 1.2rem; /* ukuran teks hero */
+  font-size: 1.3rem;
   margin-bottom: 2rem;
 }
+
 .hero .btn {
-  background: rgba(250, 200, 0, 0.667); /* tombol hero */
+  background: rgba(250, 200, 0, 0.667);
   color: #ffffff;
   padding: 0.8rem 1.5rem;
   border-radius: 4px;
@@ -83,6 +100,7 @@ header nav a.active {
   font-weight: bold;
   transition: background 0.3s;
 }
+
 .hero .btn:hover {
   background: #e68a00;
 }
@@ -930,5 +948,19 @@ body.detail-page::before {
 .menu-item span {
   text-decoration: none;
   color: inherit;
+}
+
+/* === FIX NAVBAR CONTACT === */
+body.contact-page header {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+}
+
+/* Jarak konten supaya tidak ketimpa navbar */
+body.contact-page main {
+  margin-top: 120px !important;
 }
 
