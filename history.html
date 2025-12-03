@@ -6,18 +6,59 @@
   <title>History - Omah Rasa</title>
   <link rel="stylesheet" href="style.css"/>
   <style>
+    /* Style Khusus Halaman History */
     .history-container { max-width: 800px; margin: 2rem auto; padding: 2rem; background: rgba(0, 0, 0, 0.6); border-radius: 8px; color: white; }
-    .reservation-card { background: rgba(255, 255, 255, 0.1); padding: 1.5rem; margin-bottom: 1.5rem; border-radius: 8px; border-left: 5px solid #ff9900; }
+    
+    .reservation-card { 
+      background: rgba(255, 255, 255, 0.1); 
+      padding: 1.5rem; 
+      margin-bottom: 1.5rem; 
+      border-radius: 8px; 
+      border-left: 5px solid #ff9900; 
+      position: relative;
+    }
     .reservation-card h3 { margin-top: 0; color: #ff9900; }
-    .button-group { display: flex; gap: 10px; margin-top: 15px; }
-    .btn-history { color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: background-color 0.2s; }
-    .btn-cancel { background-color: #f0ad4e; }
+    .reservation-card p { margin: 5px 0; }
+    
+    /* Grup Tombol */
+    .button-group { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
+    
+    /* Tombol Umum */
+    .btn-history { color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+    
+    /* Warna Tombol */
+    .btn-edit { background-color: #4CAF50; } /* Hijau */
+    .btn-edit:hover { background-color: #45a049; }
+    
+    .btn-cancel { background-color: #f0ad4e; } /* Oranye */
     .btn-cancel:hover { background-color: #ec971f; }
-    .btn-delete { background-color: #d9534f; }
+    
+    .btn-delete { background-color: #d9534f; } /* Merah */
     .btn-delete:hover { background-color: #c9302c; }
+    
+    /* Disabled State */
     .btn-history:disabled { background-color: #555; cursor: not-allowed; opacity: 0.7; }
+
+    /* Status Text */
     .status-cancelled { color: #ff4444; font-weight: bold; }
+    .status-confirmed { color: #4CAF50; font-weight: bold; }
     .status-pending { color: #ffbb33; font-weight: bold; }
+
+    /* Badge Lunas */
+    .badge-paid {
+      position: absolute; top: 15px; right: 15px;
+      background: #4CAF50; color: white; padding: 5px 10px;
+      border-radius: 15px; font-size: 0.8rem; font-weight: bold;
+    }
+
+    /* Modal Edit Styles */
+    /* Kita pakai class modal yang sudah ada di style.css (dari contact), 
+       tapi ini tambahan spesifik untuk form di dalamnya */
+    #editForm label { display: block; margin-top: 10px; margin-bottom: 5px; color: #333; font-weight: bold;} 
+    /* Override warna label jadi hitam karena background modal content biasanya putih/terang di edit mode, 
+       atau sesuaikan jika background gelap */
+    .modal-content { color: #fff; } /* Pastikan teks putih jika background gelap */
+    .modal-content label { color: #ccc; }
   </style>
 </head>
 <body class="menu-page">
@@ -38,89 +79,161 @@
   <main>
     <h1 class="page-title">History Reservasi</h1>
     <div class="history-container" id="historyList">
-      <p style="text-align:center;">Menghubungkan ke server...</p>
+      <p style="text-align:center;">Memuat data...</p>
     </div>
   </main>
 
-  <footer><p>&copy; 2025 Omah Rasa. All rights reserved.</p></footer>
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeEditModal()">&times;</span>
+      <h2 style="color:#ff9900; text-align:center; margin-bottom: 1.5rem;">Edit Reservasi</h2>
+      
+      <form id="editForm">
+        <input type="hidden" id="editId"> 
+        
+        <label>Tanggal Baru</label>
+        <input type="date" id="editTanggal" style="width:100%; padding:10px; margin-bottom:15px; border-radius:5px; border:1px solid #ccc; background:#333; color:#fff;" required>
+        
+        <label>Jam Baru</label>
+        <select id="editWaktu" style="width:100%; padding:10px; margin-bottom:15px; border-radius:5px; border:1px solid #ccc; background:#333; color:#fff;" required>
+           <option>17:00</option><option>17:30</option><option>18:00</option><option>18:30</option>
+           <option>19:00</option><option>19:30</option><option>20:00</option>
+        </select>
+
+        <label>Jumlah Orang</label>
+        <input type="number" id="editPeople" min="1" max="20" style="width:100%; padding:10px; margin-bottom:20px; border-radius:5px; border:1px solid #ccc; background:#333; color:#fff;" required>
+
+        <button type="submit" class="btn" style="width:100%; background:#4CAF50; color:white; padding:10px; border:none; border-radius:5px; cursor:pointer; font-weight:bold;">Simpan Perubahan</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Omah Rasa. All rights reserved</p>
+  </footer>
 
   <script type="module">
+    // Import Fungsi Firebase
     import { db, auth, onAuthStateChanged, signInAnonymously, collection, query, where, onSnapshot, doc, updateDoc, deleteDoc } from './firebaseconfig.js';
 
     const historyList = document.getElementById("historyList");
-    let unsubscribe = null;
+    const editModal = document.getElementById("editModal");
+    let currentUserId = null;
 
+    // 1. Cek Login
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        loadHistory(user.uid);
+        currentUserId = user.uid;
+        loadHistory(currentUserId);
       } else {
-        signInAnonymously(auth).catch((error) => {
-          console.error("Login Error:", error);
-          historyList.innerHTML = "<p style='text-align:center;'>Gagal terhubung.</p>";
-        });
+        signInAnonymously(auth);
       }
     });
 
+    // 2. Muat Data (Realtime)
     function loadHistory(userId) {
       const q = query(collection(db, "reservasi"), where("userId", "==", userId));
-      if (unsubscribe) unsubscribe();
-
-      unsubscribe = onSnapshot(q, (querySnapshot) => {
-        if (querySnapshot.empty) {
+      
+      onSnapshot(q, (snapshot) => {
+        if (snapshot.empty) {
           historyList.innerHTML = "<p style='text-align:center;'>Belum ada reservasi.</p>";
           return;
         }
+        historyList.innerHTML = "";
+        
+        let data = [];
+        snapshot.forEach(d => data.push({id: d.id, ...d.data()}));
+        // Urutkan terbaru di atas
+        data.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
 
-        historyList.innerHTML = ""; 
-        let reservations = [];
-        querySnapshot.forEach((doc) => {
-          reservations.push({ id: doc.id, ...doc.data() });
-        });
-
-        // Urutkan (Terbaru di atas)
-        reservations.sort((a, b) => (b.createdAt?.toDate() || 0) - (a.createdAt?.toDate() || 0));
-
-        reservations.forEach(item => {
-          const card = document.createElement("div");
-          card.className = "reservation-card";
-          
+        data.forEach(item => {
           const isCancelled = item.status === "Cancelled";
-          let statusDisplay = isCancelled ? `<span class="status-cancelled">Dibatalkan</span>` : `<span class="status-pending">${item.status}</span>`;
-          let cancelDisabled = isCancelled ? "disabled" : "";
-          let cancelText = isCancelled ? "Sudah Dibatalkan" : "Batalkan Reservasi";
+          
+          // Tentukan warna status
+          let statusClass = "status-pending";
+          if (item.status === "Confirmed") statusClass = "status-confirmed";
+          if (isCancelled) statusClass = "status-cancelled";
 
-          card.innerHTML = `
+          // Tanda Lunas (Integrasi dengan Contact V2)
+          const paidBadge = item.paymentStatus === 'Paid' 
+            ? `<span class="badge-paid">LUNAS (${item.paymentMethod})</span>` 
+            : '';
+
+          const div = document.createElement("div");
+          div.className = "reservation-card";
+          div.innerHTML = `
+            ${paidBadge}
             <h3>${item.name}</h3>
             <p><strong>Tanggal:</strong> ${item.tanggal} | Pukul ${item.waktu}</p>
             <p><strong>Jumlah:</strong> ${item.people} Orang</p>
-            <p><strong>Status:</strong> ${statusDisplay}</p>
+            <p><strong>Status:</strong> <span class="${statusClass}">${item.status}</span></p>
+            
             <div class="button-group">
-              <button class="btn-history btn-cancel" data-id="${item.id}" ${cancelDisabled}>${cancelText}</button>
-              <button class="btn-history btn-delete" data-id="${item.id}">Hapus History</button>
+              <button class="btn-history btn-edit" 
+                onclick="openEdit('${item.id}', '${item.tanggal}', '${item.waktu}', ${item.people})" 
+                ${isCancelled ? 'disabled' : ''}>Edit</button>
+              
+              <button class="btn-history btn-cancel" 
+                onclick="updateStatus('${item.id}', 'Cancelled')" 
+                ${isCancelled ? 'disabled' : ''}>Batalkan</button>
+              
+              <button class="btn-history btn-delete" 
+                onclick="deleteItem('${item.id}')">Hapus</button>
             </div>
           `;
-          historyList.appendChild(card);
+          historyList.appendChild(div);
         });
       });
     }
 
-    historyList.addEventListener('click', async (e) => {
-      const target = e.target;
-      const reservationId = target.dataset.id;
-      if (!reservationId) return;
+    // === FUNGSI GLOBAL (Window Scope) ===
+    
+    // A. Buka Modal Edit
+    window.openEdit = (id, tgl, waktu, jml) => {
+      document.getElementById("editId").value = id;
+      document.getElementById("editTanggal").value = tgl;
+      document.getElementById("editWaktu").value = waktu;
+      document.getElementById("editPeople").value = jml;
+      editModal.style.display = "block";
+    };
 
-      if (target.classList.contains('btn-cancel')) {
-        if(!confirm("Batalkan reservasi ini?")) return;
-        target.disabled = true;
-        await updateDoc(doc(db, "reservasi", reservationId), { status: "Cancelled" });
-      }
+    // B. Tutup Modal
+    window.closeEditModal = () => { editModal.style.display = "none"; };
+    window.onclick = (e) => { if(e.target == editModal) closeEditModal(); };
 
-      if (target.classList.contains('btn-delete')) {
-        if(!confirm("Hapus history ini permanen?")) return;
-        target.disabled = true;
-        await deleteDoc(doc(db, "reservasi", reservationId));
+    // C. Simpan Perubahan
+    document.getElementById("editForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const id = document.getElementById("editId").value;
+      
+      try {
+        const docRef = doc(db, "reservasi", id);
+        await updateDoc(docRef, {
+          tanggal: document.getElementById("editTanggal").value,
+          waktu: document.getElementById("editWaktu").value,
+          people: parseInt(document.getElementById("editPeople").value)
+        });
+        alert("Reservasi berhasil diubah!");
+        closeEditModal();
+      } catch (err) {
+        console.error(err);
+        alert("Gagal mengubah data.");
       }
     });
+
+    // D. Fungsi Batalkan
+    window.updateStatus = async (id, status) => {
+      if(confirm("Yakin ingin membatalkan reservasi ini?")) {
+        await updateDoc(doc(db, "reservasi", id), { status: status });
+      }
+    };
+
+    // E. Fungsi Hapus
+    window.deleteItem = async (id) => {
+      if(confirm("Hapus history ini permanen?")) {
+        await deleteDoc(doc(db, "reservasi", id));
+      }
+    };
   </script>
 </body>
 </html>

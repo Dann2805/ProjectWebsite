@@ -3,17 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Contact - Omah Rasa</title>
+  <title>Reservasi & Bayar - Omah Rasa</title>
+  
   <link rel="stylesheet" href="style.css"/>
-  <style>
-    .message-box { display: none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); padding: 15px 25px; border-radius: 8px; font-size: 1rem; font-weight: bold; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-    .message-box.success { background-color: #4CAF50; color: white; }
-    .message-box.error { background-color: #f44336; color: white; }
-    .form-row { display: flex; gap: 1rem; } .form-group { flex: 1; }
-    .reservation select, .reservation textarea { width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid #ccc; border-radius: 6px; }
-    .disclaimer { font-size: 0.85rem; color: #777; text-align: center; margin-top: 1rem; }
-  </style>
 </head>
+
 <body class="contact-page"> 
 
   <header>
@@ -24,107 +18,161 @@
         <li><a href="menu.html">Menu</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="contact.html" class="active">Contact</a></li>
-        <li><a href="history.html">History</a></li> 
+        <li><a href="history.html">History</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
-    <h1 class="page-title">Contact & Reservation</h1>
+    <h1 class="page-title">Reservasi Meja</h1>
+
     <section class="reservation">
-      <h2>Book a Table</h2>
+      <h2>Isi Data Pemesanan</h2>
       <form id="reservationForm">
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" required>
-
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
-
-        <label for="telepon">Phone Number</label>
-        <input type="tel" id="telepon" name="telepon" placeholder="Nomor WhatsApp aktif" required>
+        <label>Nama Pemesan</label> <input type="text" id="name" required>
+        <label>Email</label> <input type="email" id="email" required>
+        <label>No. WhatsApp</label> <input type="tel" id="telepon" placeholder="08xxxxxxxx" required>
 
         <div class="form-row">
-          <div class="form-group"><label for="tanggal">Date</label><input type="date" id="tanggal" name="tanggal" required></div>
-          <div class="form-group"><label for="waktu">Time</label>
-            <select id="waktu" name="waktu" required>
-              <option value="">Pilih Waktu</option><option value="17:00">17:00</option><option value="17:30">17:30</option>
-              <option value="18:00">18:00</option><option value="18:30">18:30</option><option value="19:00">19:00</option>
-              <option value="19:30">19:30</option><option value="20:00">20:00</option>
+          <div class="form-group"><label>Tanggal</label><input type="date" id="tanggal" required></div>
+          <div class="form-group"><label>Jam</label>
+            <select id="waktu" required>
+              <option value="">Pilih Jam</option>
+              <option>17:00</option><option>17:30</option><option>18:00</option><option>18:30</option>
+              <option>19:00</option><option>19:30</option><option>20:00</option>
             </select>
           </div>
         </div>
 
-        <label for="people">Number of People</label>
-        <input type="number" id="people" name="people" min="1" max="20" placeholder="Maks. 20 orang" required>
-
-        <label for="catatan">Special Requests (Opsional)</label>
-        <textarea id="catatan" name="catatan" rows="4" placeholder="Contoh: Perlu kursi bayi, alergi kacang, dll."></textarea>
+        <label>Jumlah Orang</label>
+        <input type="number" id="people" min="1" max="20" placeholder="Maks. 20 orang" required>
+        <label>Permintaan Khusus (Opsional)</label>
+        <textarea id="catatan" rows="3" placeholder="Contoh: Kursi bayi, area non-smoking"></textarea>
         
-        <button type="submit" class="btn" id="submitButton" disabled>Loading...</button>
-        <p class="disclaimer">Perhatian: Reservasi Anda akan disimpan secara online.</p>
+        <button type="button" class="btn" id="btnShowModal">Lanjut ke Pembayaran</button>
+        
+        <p class="disclaimer">Booking Fee Rp 50.000 diperlukan untuk mengamankan meja Anda.</p>
       </form>
     </section>
   </main>
 
-  <div id="messageBox" class="message-box"></div>
-  <footer><p>&copy; 2025 Omah Rasa. All rights reserved.</p></footer>
+  <div id="paymentOverlay" class="modal-overlay">
+    <div class="modal-box">
+      <span class="close-icon" id="iconClose">&times;</span>
+      
+      <h2 style="color:#ff9900; margin-bottom:10px;">Metode Pembayaran</h2>
+      <p style="color:#ccc; font-size:0.9rem;">Booking Fee</p>
+      
+      <div class="total-tagihan">Rp 50.000</div>
+
+      <div class="payment-option" onclick="selectPayment(this, 'QRIS')">
+        <strong>QRIS (Scan)</strong> <span>📷</span>
+      </div>
+      <div class="payment-option" onclick="selectPayment(this, 'Transfer BCA')">
+        <strong>Transfer BCA</strong> <span>🏦</span>
+      </div>
+      <div class="payment-option" onclick="selectPayment(this, 'GoPay')">
+        <strong>GoPay / E-Wallet</strong> <span>📱</span>
+      </div>
+
+      <div class="action-buttons">
+        <button id="btnPayNow" disabled>Pilih Metode Dulu</button>
+        <button id="btnCancel">Batal / Ubah Data</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="customAlert" class="alert-box"></div>
+  
+  <footer>
+    <p>&copy; 2025 Omah Rasa. Semua hak cipta dilindungi</p>
+  </footer>
 
   <script type="module">
     import { db, auth, signInAnonymously, onAuthStateChanged, collection, addDoc, serverTimestamp } from './firebaseconfig.js';
 
-    const reservationForm = document.getElementById("reservationForm");
-    const submitButton = document.getElementById("submitButton");
-    const messageBox = document.getElementById("messageBox");
-    let currentUserId = null;
+    const modal = document.getElementById("paymentOverlay");
+    const btnShow = document.getElementById("btnShowModal");
+    const btnPay = document.getElementById("btnPayNow");
+    const btnCancel = document.getElementById("btnCancel");
+    const iconClose = document.getElementById("iconClose");
+    const form = document.getElementById("reservationForm");
+    const alertBox = document.getElementById("customAlert");
+    
+    let selectedMethod = null;
+    let currentUid = null;
 
     onAuthStateChanged(auth, (user) => {
-      if (user) {
-        currentUserId = user.uid;
-        submitButton.disabled = false;
-        submitButton.textContent = "Submit Reservation";
+      if(user) currentUid = user.uid;
+      else signInAnonymously(auth);
+    });
+
+    btnShow.addEventListener("click", () => {
+      if(form.checkValidity()) {
+        modal.style.display = "flex"; // Muncul di tengah
       } else {
-        signInAnonymously(auth).catch((error) => console.error("Login Error:", error));
+        form.reportValidity();
       }
     });
 
-    reservationForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      if (!currentUserId) return showMessage("User belum terautentikasi.", "error");
+    function closeModal() { modal.style.display = "none"; }
+    btnCancel.onclick = closeModal;
+    iconClose.onclick = closeModal;
 
-      submitButton.disabled = true;
-      submitButton.textContent = "Menyimpan...";
+    window.selectPayment = (element, method) => {
+      document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('active'));
+      element.classList.add('active');
+      selectedMethod = method;
+      btnPay.disabled = false;
+      btnPay.style.background = "linear-gradient(45deg, #f9a825, #f57c00)";
+      btnPay.style.cursor = "pointer";
+      btnPay.textContent = "Bayar Sekarang";
+    };
 
-      try {
-        const reservationData = {
-          userId: currentUserId,
-          name: document.getElementById("name").value,
-          email: document.getElementById("email").value,
-          telepon: document.getElementById("telepon").value,
-          tanggal: document.getElementById("tanggal").value,
-          waktu: document.getElementById("waktu").value,
-          people: parseInt(document.getElementById("people").value),
-          catatan: document.getElementById("catatan").value,
-          status: "Pending",
-          createdAt: serverTimestamp()
-        };
+    btnPay.addEventListener("click", async () => {
+      if(!currentUid) return showAlert("Koneksi database belum siap.", "error");
 
-        await addDoc(collection(db, "reservasi"), reservationData);
-        showMessage("Reservasi berhasil disimpan!", "success");
-        reservationForm.reset();
-      } catch (error) {
-        console.error("Error:", error);
-        showMessage("Gagal menyimpan reservasi.", "error");
-      } finally {
-        submitButton.disabled = false;
-        submitButton.textContent = "Submit Reservation";
-      }
+      btnPay.textContent = "Memproses...";
+      btnPay.disabled = true;
+
+      setTimeout(async () => {
+        try {
+          await addDoc(collection(db, "reservasi"), {
+            userId: currentUid,
+            name: document.getElementById("name").value,
+            email: document.getElementById("email").value,
+            telepon: document.getElementById("telepon").value,
+            tanggal: document.getElementById("tanggal").value,
+            waktu: document.getElementById("waktu").value,
+            people: parseInt(document.getElementById("people").value),
+            catatan: document.getElementById("catatan").value,
+            status: "Confirmed",
+            paymentStatus: "Paid",
+            paymentMethod: selectedMethod,
+            amount: 50000,
+            createdAt: serverTimestamp()
+          });
+
+          closeModal();
+          showAlert("Pembayaran Berhasil! Reservasi Diterima.", "success");
+          form.reset();
+          document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('active'));
+          btnPay.textContent = "Pilih Metode Dulu";
+          btnPay.style.background = "#ccc";
+
+        } catch (err) {
+          console.error(err);
+          showAlert("Gagal menyimpan data.", "error");
+        }
+        btnPay.disabled = false;
+      }, 1500);
     });
 
-    function showMessage(message, type) {
-      messageBox.textContent = message;
-      messageBox.className = `message-box ${type}`;
-      messageBox.style.display = 'block';
-      setTimeout(() => { messageBox.style.display = 'none'; }, 5000);
+    function showAlert(msg, type) {
+      alertBox.textContent = msg;
+      alertBox.className = `alert-box alert-${type}`;
+      alertBox.style.display = "block";
+      setTimeout(() => alertBox.style.display = "none", 3000);
     }
   </script>
 </body>

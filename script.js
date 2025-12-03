@@ -24,31 +24,25 @@ document.addEventListener('DOMContentLoaded', () => {
       const itemCategory = item.dataset.category;
 
       // 4. Cek kondisi
-      // Kondisi 1: Apakah nama item mengandung teks pencarian?
       const matchesSearch = itemName.includes(searchText);
-      
-      // Kondisi 2: Apakah kategori item cocok dengan filter, ATAU apakah filter di set ke "Semua Kategori"?
       const matchesCategory = (selectedCategory === 'all') || (itemCategory === selectedCategory);
 
       // 5. Tampilkan atau sembunyikan item
-      // JIKA kedua kondisi terpenuhi (cocok pencarian DAN cocok kategori)
       if (matchesSearch && matchesCategory) {
-        item.style.display = 'block'; // Tampilkan item
+        item.style.display = 'block';
       } else {
-        item.style.display = 'none';  // Sembunyikan item
+        item.style.display = 'none';
       }
     });
   }
 
-  // Tambahkan 'pendengar' (event listener)
-  // Jalankan fungsi filterMenu() setiap kali pengguna mengetik di search bar
+  // Event listener
   searchInput.addEventListener('input', filterMenu);
-  
-  // Jalankan fungsi filterMenu() setiap kali pengguna mengganti pilihan filter
   categoryFilter.addEventListener('change', filterMenu);
 
-  
 });
+
+
 
 /* ================================
    SECTION: DETAIL PAGE HANDLER
@@ -56,13 +50,13 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener("DOMContentLoaded", function() {
   const detailSections = document.querySelectorAll(".menu-detail");
   
-  // Efek fade-in untuk setiap menu saat halaman dimuat
   detailSections.forEach((section, i) => {
     setTimeout(() => {
       section.classList.add("fade-in");
-    }, i * 300); // jeda animasi antar menu
+    }, i * 300);
   });
 });
+
 
 
 /* ================================
@@ -82,5 +76,43 @@ document.addEventListener("DOMContentLoaded", function() {
       section.style.opacity = 1;
       section.style.transform = "translateY(0)";
     }, 300 * index);
+  });
+});
+
+
+
+/* ================================
+   PAGE TRANSITION (fade in - fade out)
+   ================================ */
+const body = document.body;
+const TRANSITION_DURATION = 450;
+
+// Set state awal
+body.classList.remove('fade-out');
+body.classList.add('fade-in');
+
+// Tangkap klik pada link internal
+const links = document.querySelectorAll('a[href]:not([target="_blank"])');
+links.forEach(link => {
+  const href = link.getAttribute('href') || '';
+
+  // Abaikan anchor dan javascript:
+  if (href.startsWith('#') || href.startsWith('javascript:')) return;
+
+  link.addEventListener('click', (e) => {
+
+    // Jika ctrl/meta/shift ditekan atau link eksternal → biarkan default
+    if (e.metaKey || e.ctrlKey || e.shiftKey || href.startsWith('http')) return;
+
+    e.preventDefault();
+
+    // Mulai animasi keluar
+    body.classList.remove('fade-in');
+    body.classList.add('fade-out', 'is-transitioning');
+
+    // Setelah animasi selesai, pindah halaman
+    setTimeout(() => {
+      window.location.href = href;
+    }, TRANSITION_DURATION);
   });
 });
